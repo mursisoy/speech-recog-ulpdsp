@@ -1,6 +1,9 @@
 clear all
 close all
 
+path('training_samples',path)
+path('lib',path)
+
 %% Establecemos f muestreo y periodos bloque
 
 voz = audioread('alberto1.wav');
