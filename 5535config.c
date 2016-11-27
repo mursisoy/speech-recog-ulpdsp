@@ -7,7 +7,7 @@
 
 #include "5535config.h"
 
-void init5535i(void){
+void init5535(void){
 
 	//configuracion paginas vectores interrupcion
 	CPU_IVPD = 0x04DE;
