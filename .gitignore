@@ -34,3 +34,5 @@
 
 Debug
 *.settings/
+.ccsproject
+.cproject
