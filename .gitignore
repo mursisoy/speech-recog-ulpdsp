@@ -32,5 +32,5 @@
 *.dSYM/
 *.su
 
-*.Debug/
+Debug
 *.settings/
