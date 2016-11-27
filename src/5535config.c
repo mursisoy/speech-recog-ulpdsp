@@ -5,7 +5,7 @@
  *
  */
 
-#include "5535config.h"
+#include "../5535config.h"
 
 void init5535(void){
 
