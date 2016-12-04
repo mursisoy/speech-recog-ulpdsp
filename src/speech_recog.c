@@ -15,7 +15,7 @@ void init_speech(void){
 	IODIR1 = 0xC000;
 	IODIR2 = 0x03;
 
-	//CPU_IER0 |= (1<<15);
+	CPU_IER0 |= (1<<15);
 	CPU_IER1 = 0;
 	_enable_interrupts();
 
