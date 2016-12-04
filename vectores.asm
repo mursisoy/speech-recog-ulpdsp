@@ -4,7 +4,7 @@
 ;    SPRUFX5D: http://www.ti.com/lit/ug/sprufx5d/sprufx5d.pdf
 ;
 ;
-         .global _c_int00, _ISR_I2S_rx
+         .global _c_int00, _ISR_I2S_rx, _ISR_TINT0
 
          .global _Reset  ; Es necesario incluirla con este nombre
                          ; Lo utiliza el entorno de C
@@ -16,7 +16,7 @@ _Reset:         .ivec _c_int00,USE_RETA
 NMI:            .ivec    dummy_isr             ; Nonmaskable Interrupt
 INT0:           .ivec    dummy_isr             ; External User Interrupt #0
 INT1:           .ivec    dummy_isr             ; External User Interrupt #1
-TINT0:          .ivec    dummy_isr             ; Timer #0 / Software Interrupt #4
+TINT0:          .ivec    _ISR_TINT0             ; Timer #0 / Software Interrupt #4
 PROG0:          .ivec    dummy_isr             ; Programmable 0 Interrupt
 UART:           .ivec    dummy_isr             ; IIS #1 Receive Interrupt
 PROG1:          .ivec    dummy_isr             ; Programmable 1 Interrupt

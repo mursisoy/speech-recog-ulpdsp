@@ -11,5 +11,9 @@ void main(void) {
 	init_speech();
 	
 
-	while(1){}
+	while(1){
+
+		speech_recog();
+
+	}
 }
