@@ -36,3 +36,4 @@ Debug
 *.settings/
 .ccsproject
 .cproject
+.launches
