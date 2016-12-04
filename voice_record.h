@@ -4,10 +4,11 @@
  *  Created on: Dec 4, 2016
  *      Author: detroit
  */
-#include <stdlib.h>
 
 #ifndef VOICE_RECORD_H_
 #define VOICE_RECORD_H_
+
+#include <stdlib.h>
 
 typedef struct linkl{ //work in progress
     signed int dat[400];

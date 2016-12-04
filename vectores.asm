@@ -4,7 +4,7 @@
 ;    SPRUFX5D: http://www.ti.com/lit/ug/sprufx5d/sprufx5d.pdf
 ;
 ;
-         .global _c_int00
+         .global _c_int00, _ISR_I2S_rx
 
          .global _Reset  ; Es necesario incluirla con este nombre
                          ; Lo utiliza el entorno de C
@@ -27,7 +27,7 @@ PROG3:          .ivec    dummy_isr             ; Programmable 3 Interrupt
 LCD:            .ivec    dummy_isr             ; LCD Interrupt
 SARADC:         .ivec    dummy_isr             ; SAR ADC Interrupt
 XMIT2:          .ivec    dummy_isr             ; I2S2 Tx Interrupt
-RCV2:           .ivec    dummy_isr             ; I2S2 Rx Interrupt
+RCV2:           .ivec    _ISR_I2S_rx             ; I2S2 Rx Interrupt
 XMIT3:          .ivec    dummy_isr             ; I2S3 Tx Interrupt
 RCV3:           .ivec    dummy_isr             ; I2S3 Rx Interrupt
 RTC:            .ivec    dummy_isr             ; RTC interrupt

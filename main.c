@@ -3,14 +3,13 @@
  */
 
 #include "5535config.h"
-#include "speech_config.h"
+#include "speech_recog.h"
 
-int main(void) {
+void main(void) {
 	
 	init5535();
 	init_speech();
 	
 
-
-	return 0;
+	while(1){}
 }
