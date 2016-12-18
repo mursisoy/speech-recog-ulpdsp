@@ -8,16 +8,11 @@
 
 #ifdef CEPSTRUM_
 
-#include "cepstrum.h"
+#include "../cepstrum.h"
 
-signed int mel_filter_bank[256][24];
-signed int dct_mat[24][12];//filas x columnas
-
-void fft_tester(signed int *audio, signed int *out){
+void fft_tester(DATA *audio, DATA *out){
     
-    signed int to_fft[512];
-    signed int to_mel[256];
-    signed int to_dct[24];
+    DATA to_fft[512];
     unsigned int fftscale = 1;
     
     unsigned int i = 0;
@@ -36,12 +31,12 @@ void fft_tester(signed int *audio, signed int *out){
 }
 
 
-void cepstrum_vec(signed int *audio, signed int *out){
+void cepstrum_vec(DATA *audio, DATA *out){
     
     
-    signed int to_fft[512];
-    signed int to_mel[256];
-    signed int to_dct[24];
+	DATA to_fft[512];
+    DATA to_mel[256];
+    DATA to_dct[24];
     
     unsigned int i = 0;
     
@@ -65,7 +60,7 @@ void cepstrum_vec(signed int *audio, signed int *out){
     
 }
 
-void fft_norm(signed int *fftC, signed int *abs_fft, unsigned int fftsize){
+void fft_norm(DATA *fftC, DATA *abs_fft, unsigned int fftsize){
     
     int i;
     signed long int temp1, temp2;
@@ -81,7 +76,7 @@ void fft_norm(signed int *fftC, signed int *abs_fft, unsigned int fftsize){
         }
 }
 
-void std_norm(signed int *vec, signed int *vec_norm, unsigned int vecsize){
+/*void std_norm(DATA *vec, DATA *vec_norm, unsigned int vecsize){
     //suponemos vecsize 12 codificamos 1/12 como (16-18)
     
     signed int a = 21845; // (1/12)*2^18
@@ -103,6 +98,7 @@ void std_norm(signed int *vec, signed int *vec_norm, unsigned int vecsize){
     
     // falta sqrt de temp1    
 }
+*/
 
 void cepstrum_gen(){
     
@@ -116,21 +112,24 @@ void cepstrum_gen(){
     unsigned int j = 0; //remvove later
     
     //creating cepstrum matrix
-    cep = (signed int**) malloc(N * sizeof(signed int*));
+    cep = (DATA**) malloc(N * sizeof(DATA*));
     
-    while(current_link->next != NULL){
+    do{
             
-        *(cep + i) = (signed int*) malloc(elementos * (sizeof(signed int)));
+        *(cep + i) = (DATA*) malloc(elementos * (sizeof(DATA)));
         
         //filling matrix with info
-        //cepstrum_vec(current_link->dat, *(cep+i));
+        //cepstrum_vec(current_link->dat, *(cep+i)); ** castear a data
         for(j = 0; j < elementos; j++){//remove later
-            cep[i][j] = current_link->dat[j];
+            cep[i][j] = (DATA) current_link->dat[j];
             printf("escribiendo %d en [%d][%d]\n", current_link->dat[j], i, j);
         }
+
         current_link = current_link->next;
+        free(link0);
+        link0 = current_link;
         i++;
-    }
+    }while(current_link->next != NULL);
     
     
 }

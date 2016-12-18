@@ -25,6 +25,6 @@ void add_list();
 void write_list(int lista, int posicion, int dato);
 int read_list(int lista, int posicion);
 void rx_windowing(signed int rx, uint16_t reset);
-
+int list_length();
 
 #endif /* VOICE_RECORD_H_ */
