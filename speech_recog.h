@@ -5,8 +5,8 @@
  *      Author: detroit
  */
 
-#ifndef SPPECH_RECOG_H_
-#define SPPECH_RECOG_H_
+#ifndef SPEECH_RECOG_H_
+#define SPEECH_RECOG_H_
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -15,6 +15,7 @@
 #include "misc.h"
 #include "usbstk5515_i2c.h"
 #include "aic3204.h"
+#include "voice_record.h"
 
 void init_speech(void);
 
