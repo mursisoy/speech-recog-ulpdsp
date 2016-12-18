@@ -17,6 +17,9 @@
 #include "aic3204.h"
 #include "voice_record.h"
 
+extern uint16_t VOICE_RECORDING_RESET;
+extern uint16_t RECORDING_TH;
+
 void init_speech(void);
 
 void speech_recog();

@@ -3,7 +3,7 @@
 linkl *link0 = NULL;
 linkl *current_link = NULL;
 
-void rx_windowing(signed int rx){
+void rx_windowing(signed int rx, uint16_t reset){
 
     int ventana = 400;
     int solape = 160;

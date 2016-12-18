@@ -7,8 +7,9 @@
 #include "../speech_recog.h"
 
 enum {IDLE, RECORDING, PROCESSING} speech_status = IDLE;
-uint16_t VOICE_RECORDING_RESET = 1;
 
+uint16_t VOICE_RECORDING_RESET = 1;
+uint16_t RECORDING_TH;
 
 void init_speech(void){
 
@@ -36,6 +37,7 @@ void init_speech(void){
 	TIM0PRD1 = 0x4B3F;
 	TIM0PRD2 = 0x004C; // 100ms
 	TIM0TCR = 0x8003; // Timer Start
+	RECORDING_TH = 20; // Timer threshold based on TIMER PERIOD
 
 }
 
@@ -83,12 +85,12 @@ interrupt void ISR_TINT0(){
 			}
 		} else if (speech_status == RECORDING){ // In RECORDING state, watch for SW2 release or time threshold
 
-			if (~((ADC_data > (SW2-rng)) && (ADC_data < (SW2+rng))) ||  recording_cnt >= 20 ) {
+			if (~((ADC_data > (SW2-rng)) && (ADC_data < (SW2+rng))) ||  recording_cnt >= RECORDING_TH ) {
 				speech_status = PROCESSING;
 				_disable_interrupts();
 				CPU_IER0 &= ~(1<<14); // Disable I2S RX interrupt
 				_enable_interrupts();
-
+				recording_cnt = 0;
 				VOICE_RECORDING_RESET = 1;
 			} else {
 				recording_cnt++;
@@ -101,6 +103,8 @@ interrupt void ISR_TINT0(){
 
 interrupt void ISR_I2S_rx(void){
 
-	rx_windowing(I2S2_W0_MSW_R);
+	rx_windowing(I2S2_W0_MSW_R, VOICE_RECORDING_RESET);
+
+	VOICE_RECORDING_RESET = 0;
 
 }
