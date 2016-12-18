@@ -101,10 +101,39 @@ void std_norm(signed int *vec, signed int *vec_norm, unsigned int vecsize){
     
     temp1 *= a; //esto es un 46 46 no se seguir
     
-    // falta sqrt de temp1
+    // falta sqrt de temp1    
+}
+
+void cepstrum_gen(){
     
+    //we still dont know size of input, could be changed
+    unsigned int N = list_length();
+    printf("there are %d windows\n", N);
+    
+    unsigned int elementos = 12; //we will try to make it 16
+    
+    unsigned  int i = 0;
+    unsigned int j = 0; //remvove later
+    
+    //creating cepstrum matrix
+    cep = (signed int**) malloc(N * sizeof(signed int*));
+    
+    while(current_link->next != NULL){
+            
+        *(cep + i) = (signed int*) malloc(elementos * (sizeof(signed int)));
+        
+        //filling matrix with info
+        //cepstrum_vec(current_link->dat, *(cep+i));
+        for(j = 0; j < elementos; j++){//remove later
+            cep[i][j] = current_link->dat[j];
+            printf("escribiendo %d en [%d][%d]\n", current_link->dat[j], i, j);
+        }
+        current_link = current_link->next;
+        i++;
+    }
     
     
 }
+
 
 #endif

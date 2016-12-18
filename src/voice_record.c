@@ -24,7 +24,7 @@ void rx_windowing(signed int rx, uint16_t reset){
 
     for (i = 0; i < 3; i++){
 
-        index = ((ci - i) < 0)? 3 - i: ci - i;
+        index = ((ci - i) < 0)? 3 + (ci - i): ci - i;
 
         if ((list_ - i > -1) && ( c[index] < ventana) ) {
             write_list(list_ - i, c[index], rx);
@@ -84,7 +84,16 @@ void add_list(){
     current_link = link0;
 }
 
-
-void escribir_ventana(linkl *w, int idx, int rx){
-    w->dat[idx] = rx;
+int list_length(){
+    
+    unsigned int r = 0;
+    
+    while(current_link->next != NULL){
+        current_link = current_link->next;
+        r++;
+    }
+    current_link = link0;
+    r++;
+    return r;
 }
+
