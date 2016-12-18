@@ -6,6 +6,8 @@
 //  Copyright © 2016 Javier Antoran Cabiscol. All rights reserved.
 //
 
+#ifdef CEPSTRUM_
+
 #include "cepstrum.h"
 
 signed int mel_filter_bank[256][24];
@@ -104,3 +106,5 @@ void std_norm(signed int *vec, signed int *vec_norm, unsigned int vecsize){
     
     
 }
+
+#endif

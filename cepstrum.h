@@ -11,6 +11,8 @@
 
 #include <stdio.h>
 #include "stdlib.h"
+#include "dsplib.h"
+#include "misc.h"
 
 void fft_tester(signed int *audio, signed int *out);
 
