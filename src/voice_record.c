@@ -1,5 +1,8 @@
 #include "../voice_record.h"
 
+linkl *link0 = NULL;
+linkl *current_link = NULL;
+
 void rx_windowing(signed int rx){
 
     int ventana = 400;
@@ -85,8 +88,3 @@ void add_list(){
 void escribir_ventana(linkl *w, int idx, int rx){
     w->dat[idx] = rx;
 }
-
-
-
-
-

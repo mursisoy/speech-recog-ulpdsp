@@ -17,8 +17,8 @@ typedef struct linkl{ //work in progress
 } linkl;
 
 
-linkl *link0 = NULL;
-linkl *current_link = NULL;
+extern linkl *link0;
+extern linkl *current_link;
 
 void add_list();
 void write_list(int lista, int posicion, int dato);
