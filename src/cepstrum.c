@@ -114,7 +114,7 @@ void cepstrum_gen(){
     //creating cepstrum matrix
     cep = (DATA**) malloc(N * sizeof(DATA*));
     
-    do{
+    while(i < N){
             
         *(cep + i) = (DATA*) malloc(elementos * (sizeof(DATA)));
         
@@ -129,7 +129,7 @@ void cepstrum_gen(){
         free(link0);
         link0 = current_link;
         i++;
-    }while(current_link->next != NULL);
+    };
     
     
 }
