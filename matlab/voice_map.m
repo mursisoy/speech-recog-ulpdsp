@@ -70,7 +70,7 @@ Y = log(Y);
 % dct a senal Y
 
 D = dctmtx(24);
-X = D(2:13,:)*Y';
+X = D(2:17,:)*Y';
 
 % normalizaciones y derivadas
 

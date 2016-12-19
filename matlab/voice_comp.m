@@ -14,7 +14,7 @@ L = length(s);
 
 fs = 48e3/down;
 
-soundsc(s, fs);
+%soundsc(s, fs);
 
 T1 = 25*1e-3; %cogemos 25 ms
 inc = 10*1e-3; %paso 10 ms
@@ -88,7 +88,7 @@ colormap jet;
 
 D = dctmtx(24);
 figure; imagesc(D)
-X = D(2:13,:)*Y';
+X = D(2:17,:)*Y';
 %% normalizaciones + derivadas
 
 % m = mean(X,2);%forzamos media nula
