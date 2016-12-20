@@ -33,8 +33,7 @@ void fft_tester(DATA *audio, DATA *out){
 
 void cepstrum_vec(DATA *audio, DATA *out){
     
-    
-	DATA to_fft[512];
+    DATA to_fft[512];
     DATA to_mel[256];
     DATA to_dct[24];
     
@@ -51,7 +50,7 @@ void cepstrum_vec(DATA *audio, DATA *out){
     
     mmul(to_mel, 1, 256, mel_filter_bank, 256, 24, to_dct);
     
-    //logn(); preguntar a isidro
+    //logn(); devuleve Q31 para entradas q 15 porque haces log de num decimal
     
     mmul(to_mel, 1, 24, dct_mat, 24, 16, out);
     
@@ -109,7 +108,7 @@ signed int sqrt32(unsigned long int num){
     if( abs(dist_check) < abs(dist) )
         return (estimation+1);
     else if ( abs(dist_check = ((estimation-1) * (estimation-1) - num)) < abs(dist) )
-        return estimation -1;
+        return (estimation - 1);
     else
         return estimation;
 }
@@ -125,13 +124,13 @@ void std_norm(DATA *vec, DATA *out){
         mean += *(vec + i);
     }
      printf("%ld\n",mean);
-    //tengo un 20|15
-    mean >>= 4;//dividir entre 16 16|15 ***** esto es lo que quiero???
+    //20|15
+    mean >>= 4;//16|15
     printf("%ld\n",mean);
     for( i = 0; i < 16; i++){
         temp1 += ( (*(vec+i) - mean) * (*(vec+i) - mean) );
         
-    }
+    }//35|30
     temp1 >>= 4; //31/30
     
     std = sqrt32((unsigned long int) temp1); //16|15
@@ -146,9 +145,11 @@ void cepstrum_gen(){
     
     //we still dont know size of input, could be changed
     unsigned int N = list_length();
+
+    cep_N = N;
     printf("there are %d windows\n", N);
     
-    unsigned int elementos = 12; //we will try to make it 16
+    unsigned int elementos = 16;
     
     unsigned  int i = 0;
     unsigned int j = 0; //remvove later
