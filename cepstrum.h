@@ -26,5 +26,6 @@ void std_norm(DATA *vec, DATA *vec_norm, unsigned int vecsize);
 void cepstrum_vec(DATA *audio, DATA *out);
 void cepstrum_gen();
 signed int sqrt32(unsigned long int num);
+void std_norm(signed int *vec, signed int *out);
 
 #endif /* speech_recog_h */

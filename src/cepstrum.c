@@ -76,29 +76,6 @@ void fft_norm(DATA *fftC, DATA *abs_fft, unsigned int fftsize){
         }
 }
 
-void std_norm(DATA *vec, DATA *vec_norm){
-    //suponemos vecsize 16 
-    unsigned int i;
-    unsigned int to_sqrt;
-    signed long int mean = 0;
-    signed long long int temp1 = 0;
-    
-    for( i = 0; i < 16; i++){
-        mean += *(vec + i);
-    }
-    //tengo un 20|15
-    mean >>= 4;//dividir entre 16 16|15 ***** esto es lo que quiero???
-    
-    for( i = 0; i < 16; i++){
-        temp1 += ( (*(vec+i) - mean) * (*(vec+i) - mean) );
-    }//como mucho temp sera 35|30 (36|30 pero hay bit signo dup)
-    
-    temp1 >>= 15; //20|15 
-    temp1 >>= 4; //15| 15. Esto esta bien?
-    
-    to_sqrt = temp1;// falta sqrt de temp1    
-}
-
 signed int sqrt32(unsigned long int num){
     
     signed long int dist = 0;
@@ -138,6 +115,32 @@ signed int sqrt32(unsigned long int num){
         return estimation;
 }
 
+void std_norm(signed int *vec, signed int *out){
+    //suponemos vecsize 16
+    unsigned int i;
+    signed int std;
+    signed long int mean = 0;
+    signed long long int temp1 = 0;
+    
+    for( i = 0; i < 16; i++){
+        mean += *(vec + i);
+    }
+     printf("%ld\n",mean);
+    //tengo un 20|15
+    mean >>= 4;//dividir entre 16 16|15 ***** esto es lo que quiero???
+    printf("%ld\n",mean);
+    for( i = 0; i < 16; i++){
+        temp1 += ( (*(vec+i) - mean) * (*(vec+i) - mean) );
+        
+    }
+    temp1 >>= 4; //31/30
+    
+    std = sqrt32((unsigned long int) temp1); //16|15
+    
+    for(int i = 0; i < 16; i++)
+         *(out + i) = (*(vec + i) / std);
+        
+}
 
 
 void cepstrum_gen(){
