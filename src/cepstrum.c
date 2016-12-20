@@ -172,9 +172,44 @@ void cepstrum_gen(){
         free(link0);
         link0 = current_link;
         i++;
+    } 
+    
+}
+
+unsigned int rms_error16(DATA *vec1, DATA *vec2){
+    
+    unsigned long int dist = 0;
+    unsigned int i = 0;
+    
+    for( i = 0; i < 16; i++){
+        dist += ( (*(vec1+i) - *(vec2+i)) * (*(vec1+i) - *(vec2+i)) );
+    }//35|30
+    dist >>= 4; //31|30
+    return sqrt32(dist);
+
+}
+
+void cepstrum_comp(signed int cep1[][16], unsigned int N1, signed int cep2[][16], unsigned int N2, unsigned int *error_all){
+    
+    unsigned int i = 0;
+    unsigned int j = 0;
+    
+    for(i = 0; i < N1; i++){
+        
+        for(j = 0; j < N2; j++){
+            
+            *(error_all + i*N2 + j) = rms_error16( *(cep1 + i), *(cep2 + j) );
+            printf("escribiendo en [%d][%d] = %d\n", i, j, *(error_all + i*N1 + j));
+        }
+        
     }
-    
-    
+}
+
+int cmpfunc (const void * a, const void * b)
+{
+    int va = *(const int*) a;
+    int vb = *(const int*) b;
+    return (va > vb) - (va < vb);
 }
 
 
