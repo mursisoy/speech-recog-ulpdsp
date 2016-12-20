@@ -22,10 +22,9 @@ DATA dct_mat[24*12];//filas x columnas
 void fft_tester(DATA *audio, DATA *out);
 
 void fft_norm(DATA *fftC, DATA *abs_fft, unsigned int fftsize);
-void std_norm(DATA *vec, DATA *vec_norm, unsigned int vecsize);
 void cepstrum_vec(DATA *audio, DATA *out);
 void cepstrum_gen();
 signed int sqrt32(unsigned long int num);
-void std_norm(signed int *vec, signed int *out);
+void std_norm(DATA *vec, DATA *out);
 
 #endif /* speech_recog_h */
