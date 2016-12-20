@@ -53,9 +53,9 @@ void cepstrum_vec(DATA *audio, DATA *out){
     
     //logn(); preguntar a isidro
     
-    mmul(to_mel, 1, 24, dct_mat, 24, 12, out);
+    mmul(to_mel, 1, 24, dct_mat, 24, 16, out);
     
-    std_norm(out, out, 12);
+    std_norm(out, out);//we keep 16 first dct coeficients
     
     
 }
@@ -76,29 +76,69 @@ void fft_norm(DATA *fftC, DATA *abs_fft, unsigned int fftsize){
         }
 }
 
-/*void std_norm(DATA *vec, DATA *vec_norm, unsigned int vecsize){
-    //suponemos vecsize 12 codificamos 1/12 como (16-18)
-    
-    signed int a = 21845; // (1/12)*2^18
+void std_norm(DATA *vec, DATA *vec_norm){
+    //suponemos vecsize 16 
     unsigned int i;
-    signed long int mean, temp1 = 0;
+    unsigned int to_sqrt;
+    signed long int mean = 0;
+    signed long long int temp1 = 0;
     
-    for( i = 0; i < vecsize; i++){
+    for( i = 0; i < 16; i++){
         mean += *(vec + i);
     }
+    //tengo un 20|15
+    mean >>= 4;//dividir entre 16 16|15 ***** esto es lo que quiero???
     
-    mean *= (a >> 2);
-    mean >>= 16;
+    for( i = 0; i < 16; i++){
+        temp1 += ( (*(vec+i) - mean) * (*(vec+i) - mean) );
+    }//como mucho temp sera 35|30 (36|30 pero hay bit signo dup)
     
-    for( i = 0; i < vecsize; i++){
-        temp1 += (((*(vec + i) - mean) >> 1)^2) >> 1;
-    }
+    temp1 >>= 15; //20|15 
+    temp1 >>= 4; //15| 15. Esto esta bien?
     
-    temp1 *= a; //esto es un 46 46 no se seguir
-    
-    // falta sqrt de temp1    
+    to_sqrt = temp1;// falta sqrt de temp1    
 }
-*/
+
+signed int sqrt32(unsigned long int num){
+    
+    signed long int dist = 0;
+    signed long int dist_check = 0;
+    signed int estimation = 0;
+    signed int last_est = 0;
+    unsigned int i = 0;
+    
+    
+    do{
+        
+        estimation |= (1 << (14 - i));
+        
+        dist = (estimation * estimation - num);
+        
+        if (dist == 0)
+            return estimation;
+        
+        if (dist > 0){
+            estimation = last_est;
+        }
+        
+        else{
+            last_est = estimation;
+        }
+        i++;
+            }while(i <= 14);
+    
+    dist_check = ((estimation+1) * (estimation+1) - num);
+    dist = (estimation * estimation - num);
+    
+    if( abs(dist_check) < abs(dist) )
+        return (estimation+1);
+    else if ( abs(dist_check = ((estimation-1) * (estimation-1) - num)) < abs(dist) )
+        return estimation -1;
+    else
+        return estimation;
+}
+
+
 
 void cepstrum_gen(){
     
