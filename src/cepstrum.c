@@ -60,21 +60,20 @@ void cepstrum_vec(DATA *audio, DATA *out){
     
 }
 
-void fft_norm(DATA *fftC, DATA *abs_fft, unsigned int fftsize){
+void fft_norm(signed int *fftC, signed int *abs_fft, unsigned int fftsize){
     
     int i;
     signed long int temp1, temp2;
     
-    for (i = 0; i < ((fftsize >> 1) - 1); i++){
+    for (i = 0; i < fftsize; i += 2){
         
         temp1 = *(fftC + i) * *(fftC + i);
         temp2 = *(fftC + i + 1) * *(fftC + i + 1);
-        *(abs_fft + i) = ((temp1 + temp2) >> 15);
+        *(abs_fft + (i >> 1)) = sqrt32(temp1 + temp2);
     }
-    if( sqrt_16(abs_fft, abs_fft, (fftsize << 1)) ){
-        printf("ha ocurrido un overflow");
-        }
+
 }
+
 
 signed int sqrt32(unsigned long int num){
     
