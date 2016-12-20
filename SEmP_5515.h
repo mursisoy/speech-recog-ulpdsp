@@ -31,7 +31,7 @@
 #define CPU_EBSR *(ioport volatile uint16_t *)0x1C00
 
 //
-// Registros de dirección de los GPIO: 1,2
+// Registros de direcciï¿½n de los GPIO: 1,2
 #define IODIR1 *(( ioport volatile uint16_t *) 0x1C06 )
 #define IODIR2 *(( ioport volatile uint16_t *) 0x1C07 )
 
@@ -59,6 +59,13 @@
 # define TIM0PRD2 *((  volatile ioport uint16_t *) 0x1813 )
 # define TIM0CNT1 *((  volatile ioport uint16_t *) 0x1814 )
 # define TIM0CNT2 *((  volatile ioport uint16_t *) 0x1815 )
+
+// TIM1
+# define TIM1TCR *((  volatile ioport uint16_t *) 0x1850 )
+# define TIM1PRD1 *((  volatile ioport uint16_t *) 0x1852 )
+# define TIM1PRD2 *((  volatile ioport uint16_t *) 0x1853 )
+# define TIM1CNT1 *((  volatile ioport uint16_t *) 0x1854 )
+# define TIM1CNT2 *((  volatile ioport uint16_t *) 0x1855 )
 
 /* ------------------------------------------------------------------------ *
  *  I2C Module                                                              *

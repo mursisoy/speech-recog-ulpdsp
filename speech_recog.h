@@ -8,8 +8,10 @@
 #ifndef SPEECH_RECOG_H_
 #define SPEECH_RECOG_H_
 
+
 #include <stdlib.h>
 #include <stdint.h>
+#include "SEmP_5515.h"
 #include "lee_switches.h"
 #include "dsplib.h"
 #include "misc.h"
@@ -24,6 +26,7 @@ void init_speech(void);
 
 void speech_recog();
 
+interrupt void ISR_TINT0();
 interrupt void ISR_I2S_rx(void);
 
 #endif /* SPPECH_RECOG_H_ */
