@@ -5,8 +5,6 @@ linkl *current_link = NULL;
 
 void rx_windowing(signed int rx, uint16_t reset){
 
-    int ventana = 400;
-    int solape = 160;
     int i = 0;
 
     static unsigned int c[3] = {0, 0, 0};
@@ -31,13 +29,13 @@ void rx_windowing(signed int rx, uint16_t reset){
 
         index = ((ci - i) < 0)? 3 + (ci - i): ci - i;
 
-        if ((list_ - i > -1) && ( c[index] < ventana) ) {
+        if ((list_ - i > -1) && ( c[index] < WIN_SAMPLES) ) {
             write_list(list_ - i, c[index], rx);
             c[index]++;
         }
     }
 
-    if (c[ci] == solape ){
+    if (c[ci] == WIN_OVERLAP ){
         list_++;
         ci = (ci == 2)? 0: ci + 1;
         c[ci] = 0;

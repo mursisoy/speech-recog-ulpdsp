@@ -12,8 +12,11 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#define WIN_SAMPLES 400
+#define WIN_OVERLAP 160
+
 typedef struct linkl{ //work in progress
-    signed int dat[400];
+    signed int dat[WIN_SAMPLES];
     int id;
     struct linkl *next;
 } linkl;
