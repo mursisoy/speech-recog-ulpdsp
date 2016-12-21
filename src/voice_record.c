@@ -14,8 +14,13 @@ void rx_windowing(signed int rx, uint16_t reset){
     static signed int ci = 0;
     signed int index = 0;
 
-    if (link0 == NULL){
+    if (reset) {
+    	remove_list();
+    	list_ = 0;
+    	ci = 0;
+    }
 
+    if (link0 == NULL){
     	link0 = malloc(sizeof(linkl));
     	link0->id = 0;
     	link0->next = NULL;
@@ -67,6 +72,19 @@ void write_list(int lista, int posicion, int dato){
     current_link = link0;
 }
 
+void remove_list(){
+
+	linkl *tmp;
+	current_link = link0;
+	while(current_link != NULL){
+		tmp = current_link;
+		current_link = current_link->next;
+		free(tmp);
+	}
+	link0 = NULL;
+
+}
+
 void add_list(){
 
 
@@ -81,6 +99,7 @@ void add_list(){
     current_link->next =  malloc(sizeof(linkl));
     current_link->next->id = current_link->id + 1;
     current_link->next->next = NULL;
+    printf("He creado la ventana %d\n",current_link->next->id);
     current_link = link0;
 }
 

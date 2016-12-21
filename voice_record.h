@@ -9,6 +9,7 @@
 #define VOICE_RECORD_H_
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <stdint.h>
 
 typedef struct linkl{ //work in progress
@@ -22,6 +23,7 @@ extern linkl *link0;
 extern linkl *current_link;
 
 void add_list();
+void remove_list();
 void write_list(int lista, int posicion, int dato);
 int read_list(int lista, int posicion);
 void rx_windowing(signed int rx, uint16_t reset);
