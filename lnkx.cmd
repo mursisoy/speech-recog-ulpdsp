@@ -19,7 +19,7 @@
 
 -stack    0x2000      /* Primary stack size   */
 -sysstack 0x1000      /* Secondary stack size */
--heap     0x2000      /* Heap area size       */
+-heap     0x1F400      /* Heap area size       */
 
 -c                    /* Use C linking conventions: auto-init vars at runtime */
 -u _Reset             /* Force load of reset interrupt handler                */
@@ -56,7 +56,7 @@ SECTIONS
 {
    .text     >  SARAM1|SARAM0         /* Code                        */
    /* Both stacks must be on same physical memory page               */
-   .stack    >  DARAM0                /* Primary system stack        */
+   .stack    >  DARAM0|SARAM0|SARAM1              /* Primary system stack        */
    .sysstack >  DARAM0                /* Secondary system stack      */
 
    .data     >  DARAM0|SARAM0|SARAM1  /* Initialized vars            */
