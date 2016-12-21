@@ -13,9 +13,9 @@ uint16_t RECORDING_TH;
 
 void init_speech(void){
 
-	//AIC3204_init();
-	//set_sampling_frequency_and_gain(16000,0); // 16 kHz
-	//USBSTK5515_I2C_init();
+	AIC3204_init();
+	set_sampling_frequency_and_gain(16000,30); // 16 kHz
+	USBSTK5515_I2C_init();
 
 	//Esto es para ADC para pulsadores
 	// Velocidad de conversión a 2Mhz
@@ -47,7 +47,7 @@ void init_speech(void){
 	TIM1PRD1 = 0xB27F;
 	TIM1PRD2 = 0x0EE6;
 
-	RECORDING_TH = 25; // Timer threshold based on TIMER PERIOD
+	RECORDING_TH = 20; // Timer threshold based on TIMER PERIOD
 
 	_enable_interrupts();
 
