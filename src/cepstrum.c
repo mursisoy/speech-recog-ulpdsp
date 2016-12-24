@@ -6,14 +6,12 @@
 //  Copyright © 2016 Javier Antoran Cabiscol. All rights reserved.
 //
 
-#ifdef CEPSTRUM_
 
 #include "../cepstrum.h"
 
 void fft_tester(DATA *audio, DATA *out){
     
     DATA to_fft[512];
-    unsigned int fftscale = 1;
     
     unsigned int i = 0;
     
@@ -21,9 +19,9 @@ void fft_tester(DATA *audio, DATA *out){
         
         to_fft[i] = (i < 400)? audio[i]: 0; //vector para fft
     }
-    printf("fftscaling: %d", fftscale);
+
     
-    rfft(to_fft, 512, fftscale); //desbordamiento controll
+    rfft(to_fft, 512, SCALE); //desbordamiento controll
     
     fft_norm(to_fft, out, 512);
     
@@ -44,7 +42,7 @@ void cepstrum_vec(DATA *audio, DATA *out){
         to_fft[i] = (i < 400)? audio[i]: 0; //vector para fft
     }
     
-    rfft(to_fft, 512, 1); //desbordamiento controll
+    rfft(to_fft, 512, SCALE); //desbordamiento controll
     
     fft_norm(to_fft, to_mel, 512);
     
@@ -135,7 +133,7 @@ void std_norm(DATA *vec, DATA *out){
     
     std = sqrt32((unsigned long int) temp1); //16|15
     
-    for(int i = 0; i < 16; i++)
+    for(i = 0; i < 16; i++)
          *(out + i) = (*(vec + i) / std);
         
 }
@@ -146,7 +144,6 @@ void cepstrum_gen(){
     //we still dont know size of input, could be changed
     unsigned int N = list_length();
 
-    cep_N = N;
     printf("there are %d windows\n", N);
     
     unsigned int elementos = 16;
@@ -189,7 +186,7 @@ unsigned int rms_error16(DATA *vec1, DATA *vec2){
 
 }
 
-void cepstrum_comp(signed int cep1[][16], unsigned int N1, signed int cep2[][16], unsigned int N2, unsigned int *error_all){
+void cepstrum_comp(DATA cep1[][16], unsigned int N1, DATA cep2[][16], unsigned int N2, unsigned int *error_all){
     
     unsigned int i = 0;
     unsigned int j = 0;
@@ -211,6 +208,3 @@ int cmpfunc (const void * a, const void * b)
     int vb = *(const int*) b;
     return (va > vb) - (va < vb);
 }
-
-
-#endif
