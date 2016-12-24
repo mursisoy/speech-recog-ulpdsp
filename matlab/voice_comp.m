@@ -32,7 +32,7 @@ pot_bloq = zeros(1,N);
 
 for i = 1:N
     bloques(i,:) = s(p(i):p(i)+N1-1);
-    pot_bloq(i) = sum(bloques(i,:).^2);
+    pot_bloq(i) = sum(abs(bloques(i,:)));
 end
 fprintf(' tamano bloque=  %d x %d \n', size(bloques))
 
@@ -41,7 +41,7 @@ fprintf(' tamano bloque=  %d x %d \n', size(bloques))
 
 %suma muestras cuadradas cada ventana. Establecer umbral descarte ventana
 %por energia para elimninar silencio
-escalado = 4;
+escalado = 2;
 m_pot = mean(pot_bloq);
 umbral_pot = m_pot/escalado;
 g = (pot_bloq > umbral_pot);
