@@ -97,7 +97,6 @@ void add_list(){
     current_link->next =  malloc(sizeof(linkl));
     current_link->next->id = current_link->id + 1;
     current_link->next->next = NULL;
-    printf("He creado la ventana %d\n",current_link->next->id);
     current_link = link0;
 }
 
