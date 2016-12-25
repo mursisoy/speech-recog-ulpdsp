@@ -1,7 +1,6 @@
 #include "../voice_record.h"
 
 linkl *link0 = NULL;
-linkl *current_link = NULL;
 
 void rx_windowing(signed int rx, uint16_t reset){
 
@@ -22,7 +21,6 @@ void rx_windowing(signed int rx, uint16_t reset){
     	link0 = malloc(sizeof(linkl));
     	link0->id = 0;
     	link0->next = NULL;
-    	current_link = link0;
     }
 
     for (i = 0; i < 3; i++){
@@ -46,6 +44,8 @@ void rx_windowing(signed int rx, uint16_t reset){
 
 int read_list(int lista, int posicion){
 
+	linkl *current_link = link0;
+
     int r;
 
     while(current_link->id < lista){
@@ -60,7 +60,7 @@ int read_list(int lista, int posicion){
 void write_list(int lista, int posicion, int dato){
 
 
-    current_link = link0;//si se maneja bien se puede quitar esta linea
+	linkl *current_link = link0;
 
     while(current_link->id < lista){
         current_link = current_link->next;
@@ -72,13 +72,14 @@ void write_list(int lista, int posicion, int dato){
 
 void remove_list(){
 
-	linkl *tmp;
-	current_link = link0;
-	while(current_link != NULL){
-		tmp = current_link;
-		current_link = current_link->next;
-		free(tmp);
+	linkl *current_link = link0;
+
+	while(current_link != null){
+		link0 = current_link->next;
+		free(current_link);
+		current_link = link0;
 	}
+
 	link0 = NULL;
 
 }
@@ -86,7 +87,7 @@ void remove_list(){
 void add_list(){
 
 
-    current_link = link0;
+	linkl *current_link = link0;
 
 
     while(current_link->next != NULL){
@@ -97,19 +98,19 @@ void add_list(){
     current_link->next =  malloc(sizeof(linkl));
     current_link->next->id = current_link->id + 1;
     current_link->next->next = NULL;
-    current_link = link0;
 }
 
 int list_length(){
     
     unsigned int r = 0;
     
-    while(current_link->next != NULL){
+    linkl *current_link = link0;
+
+    while(current_link != NULL){
         current_link = current_link->next;
         r++;
     }
     current_link = link0;
-    r++;
     return r;
 }
 

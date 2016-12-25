@@ -23,7 +23,6 @@ typedef struct linkl{ //work in progress
 
 
 extern linkl *link0;
-extern linkl *current_link;
 
 void add_list();
 void remove_list();
