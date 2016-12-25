@@ -5,11 +5,7 @@
 //  Created by Javier Antoran Cabiscol on 04/12/2016.
 //  Copyright © 2016 Javier Antoran Cabiscol. All rights reserved.
 //
-
-<<<<<<< HEAD
 //#ifdef CEPSTRUM_
-=======
->>>>>>> 09cd22bee32d9a19a12b7d68bdf61645ffea703f
 
 #include "../cepstrum.h"
 
@@ -141,11 +137,7 @@ void std_norm(DATA *vec, DATA *out){
     
     std = sqrt32((unsigned long int) temp1); //16|15
     
-<<<<<<< HEAD
     for(i = 0; i < 16; i++){
-=======
-    for(i = 0; i < 16; i++)
->>>>>>> 09cd22bee32d9a19a12b7d68bdf61645ffea703f
          *(out + i) = (*(vec + i) / std);
     }
 }
@@ -220,9 +212,4 @@ int cmpfunc (const void * a, const void * b)
     int vb = *(const int*) b;
     return (va > vb) - (va < vb);
 }
-<<<<<<< HEAD
-
-
 //#endif
-=======
->>>>>>> 09cd22bee32d9a19a12b7d68bdf61645ffea703f
