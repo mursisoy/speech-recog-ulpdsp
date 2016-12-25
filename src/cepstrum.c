@@ -6,14 +6,20 @@
 //  Copyright © 2016 Javier Antoran Cabiscol. All rights reserved.
 //
 
+<<<<<<< HEAD
 //#ifdef CEPSTRUM_
+=======
+>>>>>>> 09cd22bee32d9a19a12b7d68bdf61645ffea703f
 
 #include "../cepstrum.h"
+
+DATA **cep;
+DATA mel_filter_bank[FFT_RES*FFT_LENGTH];
+DATA dct_mat[FFT_LENGTH*DCT_LENGTH];//filas x columnas
 
 void fft_tester(DATA *audio, DATA *out){
     
     DATA to_fft[512];
-    unsigned int fftscale = 1;
     
     unsigned int i = 0;
     
@@ -21,9 +27,9 @@ void fft_tester(DATA *audio, DATA *out){
         
         to_fft[i] = (i < 400)? audio[i]: 0; //vector para fft
     }
-    printf("fftscaling: %d", fftscale);
+
     
-    rfft(to_fft, 512, fftscale); //desbordamiento controll
+    rfft(to_fft, 512, SCALE); //desbordamiento controll
     
     fft_norm(to_fft, out, 512);
     
@@ -44,7 +50,7 @@ void cepstrum_vec(DATA *audio, DATA *out){
         to_fft[i] = (i < 400)? audio[i]: 0; //vector para fft
     }
     
-    rfft(to_fft, 512, 1); //desbordamiento controll
+    rfft(to_fft, 512, SCALE); //desbordamiento controll
     
     fft_norm(to_fft, to_mel, 512);
     
@@ -135,7 +141,11 @@ void std_norm(DATA *vec, DATA *out){
     
     std = sqrt32((unsigned long int) temp1); //16|15
     
+<<<<<<< HEAD
     for(i = 0; i < 16; i++){
+=======
+    for(i = 0; i < 16; i++)
+>>>>>>> 09cd22bee32d9a19a12b7d68bdf61645ffea703f
          *(out + i) = (*(vec + i) / std);
     }
 }
@@ -210,6 +220,9 @@ int cmpfunc (const void * a, const void * b)
     int vb = *(const int*) b;
     return (va > vb) - (va < vb);
 }
+<<<<<<< HEAD
 
 
 //#endif
+=======
+>>>>>>> 09cd22bee32d9a19a12b7d68bdf61645ffea703f

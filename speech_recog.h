@@ -13,11 +13,9 @@
 #include <stdint.h>
 #include "SEmP_5515.h"
 #include "lee_switches.h"
-#include "dsplib.h"
-#include "misc.h"
 #include "usbstk5515_i2c.h"
 #include "aic3204.h"
-#include "voice_record.h"
+#include "cepstrum.h"
 
 extern uint16_t VOICE_RECORDING_RESET;
 extern uint16_t RECORDING_TH;
