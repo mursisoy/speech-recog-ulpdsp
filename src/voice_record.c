@@ -74,14 +74,11 @@ void remove_list(){
 
 	linkl *current_link = link0;
 
-	while(current_link != null){
+	while(current_link != NULL){
 		link0 = current_link->next;
 		free(current_link);
 		current_link = link0;
 	}
-
-	link0 = NULL;
-
 }
 
 void add_list(){
