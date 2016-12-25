@@ -6,7 +6,7 @@
 //  Copyright © 2016 Javier Antoran Cabiscol. All rights reserved.
 //
 
-#ifdef CEPSTRUM_
+//#ifdef CEPSTRUM_
 
 #include "../cepstrum.h"
 
@@ -135,9 +135,9 @@ void std_norm(DATA *vec, DATA *out){
     
     std = sqrt32((unsigned long int) temp1); //16|15
     
-    for(int i = 0; i < 16; i++)
+    for(i = 0; i < 16; i++){
          *(out + i) = (*(vec + i) / std);
-        
+    }
 }
 
 
@@ -146,7 +146,6 @@ void cepstrum_gen(){
     //we still dont know size of input, could be changed
     unsigned int N = list_length();
 
-    cep_N = N;
     printf("there are %d windows\n", N);
     
     unsigned int elementos = 16;
@@ -189,7 +188,7 @@ unsigned int rms_error16(DATA *vec1, DATA *vec2){
 
 }
 
-void cepstrum_comp(signed int cep1[][16], unsigned int N1, signed int cep2[][16], unsigned int N2, unsigned int *error_all){
+void cepstrum_comp(DATA cep1[][16], unsigned int N1, DATA cep2[][16], unsigned int N2, unsigned int *error_all){
     
     unsigned int i = 0;
     unsigned int j = 0;
@@ -213,4 +212,4 @@ int cmpfunc (const void * a, const void * b)
 }
 
 
-#endif
+//#endif
