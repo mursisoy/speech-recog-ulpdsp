@@ -150,29 +150,31 @@ void cepstrum_gen(){
 
     printf("there are %d windows\n", N);
     
-    unsigned int elementos = 16;
+    unsigned int elements = 16;
     
-    unsigned  int i = 0;
-    unsigned int j = 0; //remvove later
+    unsigned int window_cnt = 0;
+    unsigned int dat_cnt; //remove later
     
+    linkl *current_link = link0;
+
     //creating cepstrum matrix
     cep = (DATA**) malloc(N * sizeof(DATA*));
     
-    while(i < N){
+    while(current_link != NULL){
             
-        *(cep + i) = (DATA*) malloc(elementos * (sizeof(DATA)));
+        *(cep + window_cnt) = (DATA*) malloc(elements * (sizeof(DATA)));
         
         //filling matrix with info
         //cepstrum_vec(current_link->dat, *(cep+i)); ** castear a data
-        for(j = 0; j < elementos; j++){//remove later
-            cep[i][j] = (DATA) current_link->dat[j];
-            printf("escribiendo %d en [%d][%d]\n", current_link->dat[j], i, j);
+        for(dat_cnt = 0; dat_cnt < elements; dat_cnt++){//remove later
+            cep[window_cnt][dat_cnt] = (DATA) current_link->dat[dat_cnt];
+            printf("escribiendo %d en [%d][%d]\n", current_link->dat[dat_cnt], window_cnt, dat_cnt);
         }
 
-        current_link = current_link->next;
-        free(link0);
-        link0 = current_link;
-        i++;
+        link0 = current_link->next;
+        free(current_link);
+        current_link = link0;
+        window_cnt++;
     } 
     
 }
