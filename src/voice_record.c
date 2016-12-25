@@ -111,3 +111,53 @@ int list_length(){
     return r;
 }
 
+void low_energy_signal_filter(unsigned int th_scale) {
+    int N = list_length();
+    unsigned int window_cnt = 0;
+    unsigned int sample_cnt;
+    unsigned long int *window_energy; // Max sum is 25 bits 16+9
+    unsigned int energy_threshold = 0;
+    linkl *prev_link;
+    linkl *current_link;
+
+
+    window_energy = (unsigned long int *) malloc(N * sizeof(*window_energy));
+
+    current_link = link0;
+
+    while (current_link != NULL) {
+        *(window_energy + window_cnt) = 0;
+        for (sample_cnt = 0; sample_cnt < WIN_SAMPLES; sample_cnt++) {
+            *(window_energy + window_cnt) += _labss((long) current_link->dat[sample_cnt]);
+        }
+        energy_threshold += *(window_energy + window_cnt);
+
+        window_cnt++;
+        current_link = current_link->next;
+    }
+
+    energy_threshold /= N * th_scale;
+
+    current_link = link0;
+    prev_link = NULL;
+    window_cnt = 0;
+    while (current_link != NULL) {
+        if (*(window_energy + window_cnt) < energy_threshold) {
+            if (prev_link == NULL) {
+                link0 = current_link->next;
+                free(current_link);
+                current_link = link0;
+            } else {
+                prev_link->next = current_link->next;
+                free(current_link);
+                current_link = prev_link->next;
+            }
+        } else {
+            prev_link = current_link;
+            current_link = current_link->next;
+        }
+
+        window_cnt++;
+
+    }
+}
