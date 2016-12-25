@@ -13,7 +13,7 @@
 #include <stdint.h>
 
 #define WIN_SAMPLES 400
-#define WIN_OVERLAP 160
+#define WIN_STEP 160
 
 typedef struct linkl{ //work in progress
     signed int dat[WIN_SAMPLES];

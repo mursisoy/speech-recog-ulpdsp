@@ -33,7 +33,7 @@ void rx_windowing(signed int rx, uint16_t reset){
         }
     }
 
-    if (c[ci] == WIN_OVERLAP ){
+    if (c[ci] == WIN_STEP ){
         list_++;
         ci = (ci == 2)? 0: ci + 1;
         c[ci] = 0;
