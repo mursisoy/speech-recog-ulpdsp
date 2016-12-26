@@ -6,7 +6,7 @@
  */
 #include "../speech_recog.h"
 
-enum {IDLE, RECORDING, PROCESSING} speech_status = IDLE;
+enum {IDLE, RECORDING, PROCESSING, ACCESS_OK, ACCESS_KO} speech_status = IDLE;
 
 uint16_t VOICE_RECORDING_RESET = 1;
 uint16_t RECORDING_TH;
@@ -62,13 +62,14 @@ void speech_recog(){
 			break;
 
 		case RECORDING:
-			IODATAOUT1 = 0x4000; // Y ON , B OFF
-			IODATAOUT2 = 0x0003; // G OFF, R OFF
+
 			break;
 
 		case PROCESSING:
-			IODATAOUT1 = 0x0000; // Y ON , B OFF
-			IODATAOUT2 = 0x0000; // G OFF, R OFF
+			speech_status = ACCESS_OK;
+			break;
+
+		case ACCESS_OK:
 			TIM1TCR = 0x8001;
 			break;
 	}
@@ -77,7 +78,9 @@ void speech_recog(){
 }
 
 interrupt void ISR_TINT0(){
-	static uint16_t pls_mask = 0, ADC_data, recording_cnt = 0;
+	uint16_t ADC_data;
+	static uint16_t pls_mask, recording_cnt = 0;
+
 
 	if (TIAFR & 0x1) {
 		SARCTRL=0xB400;              // Start conversion channel 3
@@ -91,23 +94,32 @@ interrupt void ISR_TINT0(){
 				pls_mask <<= 1;
 			}
 
-			if ( pls_mask & 0x1F ) { // 500ms being pressed => Start recording
+			if ( (pls_mask & 0x1F) == 0x1F ) { // 500ms being pressed => Start recording
 				speech_status = RECORDING;
+				IODATAOUT1 = 0x4000; // Y ON , B OFF
+				IODATAOUT2 = 0x0003; // G OFF, R OFF
 				_disable_interrupts();
 				CPU_IER0 |= (1<<15); // Enable I2S2 RX interrupt
 				_enable_interrupts();
+
 			}
 		} else if (speech_status == RECORDING){ // In RECORDING state, watch for SW2 release or time threshold
 
 			if (!((ADC_data > (SW2-rng)) && (ADC_data < (SW2+rng))) ||  recording_cnt >= RECORDING_TH ) {
-				speech_status = PROCESSING;
-				_disable_interrupts();
+				_disable_interrupts(); // First Of All
 				CPU_IER0 &= ~(1<<15); // Disable I2S RX interrupt
 				TIM0TCR &= ~(1<<15); // Disable TIM0
 				_enable_interrupts();
+
+				speech_status = PROCESSING;
+
+				IODATAOUT1 = 0x0000; // Y ON , B OFF
+				IODATAOUT2 = 0x0000; // G OFF, R OFF
+
 				recording_cnt = 0;
 				pls_mask = 0;
 				VOICE_RECORDING_RESET = 1;
+
 			} else {
 				recording_cnt++;
 			}
@@ -124,9 +136,9 @@ interrupt void ISR_TINT0(){
 }
 
 interrupt void ISR_I2S_rx(void){
-
-	rx_windowing(I2S2_W0_MSW_R, VOICE_RECORDING_RESET);
-
-	VOICE_RECORDING_RESET = 0;
+	if (speech_status == RECORDING) {
+		rx_windowing(I2S2_W0_MSW_R, VOICE_RECORDING_RESET);
+		VOICE_RECORDING_RESET = 0;
+	}
 
 }
