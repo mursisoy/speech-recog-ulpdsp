@@ -15,12 +15,15 @@ void rx_windowing(signed int rx, uint16_t reset){
     	remove_list();
     	list_ = 0;
     	ci = 0;
+    	c[0]=0;
+    	c[1]=0;
+    	c[2]=0;
     }
 
     if (link0 == NULL){
     	link0 = malloc(sizeof(linkl));
-    	link0->id = 0;
-    	link0->next = NULL;
+		link0->id = 0;
+		link0->next = NULL;
     }
 
     for (i = 0; i < 3; i++){
@@ -67,7 +70,6 @@ void write_list(int lista, int posicion, int dato){
     }
 
     current_link->dat[posicion] = dato;
-    current_link = link0;
 }
 
 void remove_list(){
@@ -160,4 +162,5 @@ void low_energy_signal_filter(unsigned int th_scale) {
         window_cnt++;
 
     }
+    free(window_energy);
 }
