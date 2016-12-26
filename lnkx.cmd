@@ -19,7 +19,7 @@
 
 -stack    0x2000      /* Primary stack size   */
 -sysstack 0x1000      /* Secondary stack size */
--heap     0x20000      /* Heap area size       */
+-heap     0x1F000      /* Heap area size       */
 
 -c                    /* Use C linking conventions: auto-init vars at runtime */
 -u _Reset             /* Force load of reset interrupt handler                */
