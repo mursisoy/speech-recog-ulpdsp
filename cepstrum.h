@@ -16,12 +16,12 @@
 #include "voice_record.h"
 
 #define FFT_RES 256
-#define FFT_LENGTH 24
+#define VOICE_CHANNELS 24
 #define DCT_LENGTH 16
 
 extern DATA **cep;
-extern DATA mel_filter_bank[FFT_RES*FFT_LENGTH];
-extern DATA dct_mat[FFT_LENGTH*DCT_LENGTH];//filas x columnas
+extern DATA mel_filter_bank[FFT_RES*VOICE_CHANNELS];
+extern DATA dct_mat[VOICE_CHANNELS*DCT_LENGTH];//filas x columnas
 
 void fft_tester(DATA *audio, DATA *out);
 

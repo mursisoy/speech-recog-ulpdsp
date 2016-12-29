@@ -10,8 +10,8 @@
 #include "../cepstrum.h"
 
 DATA **cep;
-DATA mel_filter_bank[FFT_RES*FFT_LENGTH];
-DATA dct_mat[FFT_LENGTH*DCT_LENGTH];//filas x columnas
+DATA mel_filter_bank[FFT_RES*VOICE_CHANNELS];
+DATA dct_mat[VOICE_CHANNELS*DCT_LENGTH];//filas x columnas
 
 void fft_tester(DATA *audio, DATA *out){
     
