@@ -21,7 +21,8 @@ void rx_windowing(signed int rx, uint16_t reset){
     }
 
     if (link0 == NULL){
-    	link0 = malloc(sizeof(linkl));
+    	if( (link0 = malloc(sizeof(linkl))) == NULL){
+    	}
 		link0->id = 0;
 		link0->next = NULL;
     }
@@ -94,7 +95,8 @@ void add_list(){
     }
 
 
-    current_link->next =  malloc(sizeof(linkl));
+    if( (current_link->next =  malloc(sizeof(linkl)) ) == NULL){
+    }
     current_link->next->id = current_link->id + 1;
     current_link->next->next = NULL;
 }

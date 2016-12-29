@@ -47,7 +47,7 @@ void init_speech(void){
 	TIM1PRD1 = 0xB27F;
 	TIM1PRD2 = 0x0EE6;
 
-	RECORDING_TH = 14; // Timer threshold based on TIMER PERIOD
+	RECORDING_TH = 19; // Timer threshold based on TIMER PERIOD
 
 	_enable_interrupts();
 
