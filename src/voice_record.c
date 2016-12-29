@@ -140,7 +140,7 @@ void low_energy_signal_filter(unsigned int th_scale) {
         current_link = current_link->next;
     }
 
-    energy_threshold /= N * th_scale;
+    energy_threshold /= (N * th_scale);
 
     current_link = link0;
     prev_link = NULL;

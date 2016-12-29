@@ -25,7 +25,7 @@ void fft_tester(DATA *audio, DATA *out){
     }
 
     
-    rfft(to_fft, 512, SCALE); //desbordamiento controll
+    rfft(to_fft, 512, NOSCALE); //desbordamiento controll
     
     fft_norm(to_fft, out, 512);
     
@@ -64,13 +64,19 @@ void cepstrum_vec(DATA *audio, DATA *out){
 void fft_norm(DATA *fftC, DATA *abs_fft, unsigned int fftsize){
     
     int i;
-    signed long int temp1, temp2;
+    unsigned long int temp1, temp2;
+    unsigned int index;
+    unsigned int info;
+    DATA a,b;
     
     for (i = 0; i < fftsize; i += 2){
-        
-        temp1 = *(fftC + i) * *(fftC + i);
-        temp2 = *(fftC + i + 1) * *(fftC + i + 1);
-        *(abs_fft + (i >> 1)) = sqrt32(temp1 + temp2);
+        a = *(fftC + i);
+        b = *(fftC + i  +1);
+        temp1 = (unsigned long int)*(fftC + i) * *(fftC + i);
+        temp2 = (unsigned long int)*(fftC + i + 1) * *(fftC + i + 1);
+        index = (i >> 1);
+        info = sqrt32(temp1 + temp2);
+        *(abs_fft + index) = info;
     }
 
 }
@@ -89,7 +95,7 @@ signed int sqrt32(unsigned long int num){
         
         estimation |= (1 << (14 - i));
         
-        dist = (estimation * estimation - num);
+        dist = ((signed long int)estimation * estimation - num);
         
         if (dist == 0)
             return estimation;
@@ -104,12 +110,12 @@ signed int sqrt32(unsigned long int num){
         i++;
             }while(i <= 14);
     
-    dist_check = ((estimation+1) * (estimation+1) - num);
-    dist = (estimation * estimation - num);
+    dist_check = ((signed long int)(estimation+1) * (estimation+1) - num);
+    dist = ((signed long int)estimation * estimation - num);
     
     if( abs(dist_check) < abs(dist) )
         return (estimation+1);
-    else if ( abs(dist_check = ((estimation-1) * (estimation-1) - num)) < abs(dist) )
+    else if ( abs(dist_check = ((signed long int)(estimation-1) * (estimation-1) - num)) < abs(dist) )
         return (estimation - 1);
     else
         return estimation;
@@ -130,7 +136,7 @@ void std_norm(DATA *vec, DATA *out){
     mean >>= 4;//16|15
     printf("%ld\n",mean);
     for( i = 0; i < 16; i++){
-        temp1 += ( (*(vec+i) - mean) * (*(vec+i) - mean) );
+        temp1 += ((signed long long int)(*(vec+i) - mean) * (*(vec+i) - mean) );
         
     }//35|30
     temp1 >>= 4; //31/30
@@ -185,7 +191,7 @@ unsigned int rms_error16(DATA *vec1, DATA *vec2){
     unsigned int i = 0;
     
     for( i = 0; i < 16; i++){
-        dist += ( (*(vec1+i) - *(vec2+i)) * (*(vec1+i) - *(vec2+i)) );
+        dist += ( (signed long int)(*(vec1+i) - *(vec2+i)) * (*(vec1+i) - *(vec2+i)) );
     }//35|30
     dist >>= 4; //31|30
     return sqrt32(dist);

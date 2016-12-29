@@ -17,7 +17,7 @@
 
 #define FFT_RES 256
 #define FFT_LENGTH 24
-#define DCT_LENGTH 12
+#define DCT_LENGTH 16
 
 extern DATA **cep;
 extern DATA mel_filter_bank[FFT_RES*FFT_LENGTH];
