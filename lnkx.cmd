@@ -58,7 +58,7 @@ SECTIONS
    .const    >  DARAM0|SARAM0|SARAM1  /* Constant data               */
    .sysmem   >  DARAM0|SARAM0|SARAM1/* Dynamic memory (malloc)     */
    .switch   >  SARAM_30              /* Switch statement tables     */
-   .cinit    >  SARAM_31|SARAM_30     /* Auto-initialization tables  */
+   .cinit    >  SARAM0|SARAM_31|SARAM_30     /* Auto-initialization tables  */
    .pinit    >  SARAM_31|SARAM_30     /* Initialization fn tables    */
    .cio      >  SARAM_31|SARAM_30     /* C I/O buffers               */
    .args     >  SARAM_31|SARAM_30     /* Arguments to main()         */
