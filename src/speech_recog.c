@@ -67,6 +67,8 @@ void speech_recog(){
 
 		case PROCESSING:
 			speech_status = ACCESS_OK;
+			low_energy_signal_filter(2);
+			cepstrum_gen();
 			break;
 
 		case ACCESS_OK:

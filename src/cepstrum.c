@@ -21,8 +21,6 @@ void cepstrum_vec(DATA *audio, DATA *out){
     LDATA to_dct[24];
     DATA to_log[24];
     DATA to_std_norm[16];
-    
-    LDATA maxn;
 
     unsigned int i = 0;
     
@@ -43,7 +41,7 @@ void cepstrum_vec(DATA *audio, DATA *out){
 
     mmul(to_mel, 1, 256, mel_filter_bank, 256, 24, to_log);
     
-    for (i = 20; i < 24; i++) {
+    for (i = 12; i < 24; i++) {
         	if (to_log[i]  == 0)
         		to_log[i] = 1;
         }
@@ -68,11 +66,9 @@ void fft_norm(DATA *fftC, DATA *abs_fft, unsigned int fftsize){
     unsigned long int temp1, temp2;
     unsigned int index;
     unsigned int info;
-    DATA a,b;
+
     
     for (i = 0; i < fftsize; i += 2){
-        a = *(fftC + i);
-        b = *(fftC + i  +1);
         temp1 = (unsigned long int)*(fftC + i) * *(fftC + i);
         temp2 = (unsigned long int)*(fftC + i + 1) * *(fftC + i + 1);
         index = (i >> 1);
@@ -132,10 +128,10 @@ void std_norm(DATA *vec, DATA *out){
     for( i = 0; i < 16; i++){
         mean += *(vec + i);
     }
-     printf("%ld\n",mean);
+     //printf("%ld\n",mean);
     //20|15
     mean >>= 4;//16|15
-    printf("%ld\n",mean);
+    //printf("%ld\n",mean);
     for( i = 0; i < 16; i++){
         temp1 += ((signed long long int)(*(vec+i) - mean) * (*(vec+i) - mean) );
         
@@ -160,7 +156,7 @@ void cepstrum_gen(){
     unsigned int elements = 16;
     
     unsigned int window_cnt = 0;
-    unsigned int dat_cnt; //remove later
+    //unsigned int dat_cnt; //remove later
     
     linkl *current_link = link0;
 
@@ -172,11 +168,12 @@ void cepstrum_gen(){
         *(cep + window_cnt) = (DATA*) malloc(elements * (sizeof(DATA)));
         
         //filling matrix with info
-        //cepstrum_vec(current_link->dat, *(cep+i)); ** castear a data
+        cepstrum_vec((DATA *)current_link->dat, *(cep + window_cnt));
+        /*
         for(dat_cnt = 0; dat_cnt < elements; dat_cnt++){//remove later
             cep[window_cnt][dat_cnt] = (DATA) current_link->dat[dat_cnt];
             printf("escribiendo %d en [%d][%d]\n", current_link->dat[dat_cnt], window_cnt, dat_cnt);
-        }
+        }*/
 
         link0 = current_link->next;
         free(current_link);
