@@ -145,7 +145,7 @@ void std_norm(DATA *vec, DATA *out){
     std = sqrt32((unsigned long int) temp1); //16|15
     
     for(i = 0; i < 16; i++){
-         *(out + i) = (*(vec + i) / std);
+         *(out + i) = (DATA)( ((LDATA)*(vec + i) << 3) / std);
     }
 }
 
