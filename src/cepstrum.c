@@ -29,7 +29,7 @@ void cepstrum_vec(DATA *audio, DATA *out){
         to_fft[i] = (i < 400)? audio[i]: 0; //vector para fft
     }
     
-    rfft(to_fft, 512, SCALE); //desbordamiento controll
+    rfft(to_fft, 512, SCALE);//desbordamiento controll
     to_fft[1] = 0;
 
     fft_norm(to_fft, to_mel, 512);
@@ -39,7 +39,8 @@ void cepstrum_vec(DATA *audio, DATA *out){
     	to_mel[i]  = (0);
     }
 
-    mmul(to_mel, 1, 256, mel_filter_bank, 256, 24, to_log);
+    if(mmul(to_mel, 1, 256, mel_filter_bank, 256, 24, to_log))
+    	printf("overflow in mel_filter bank operation\n");
     
     for (i = 12; i < 24; i++) {
         	if (to_log[i]  == 0)
@@ -53,7 +54,8 @@ void cepstrum_vec(DATA *audio, DATA *out){
     	to_dct[i] = ((to_dct[i] + 340700)>>4);
     }
 
-    mmul((DATA*)to_dct, 1, 24, dct_mat, 24, 16, to_std_norm);
+    if (mmul((DATA*)to_dct, 1, 24, dct_mat, 24, 16, to_std_norm))
+    	printf("overflow in dct\n");
 
 
     std_norm(to_std_norm, out);//we keep 16 first dct coeficients
