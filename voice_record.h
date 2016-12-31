@@ -12,8 +12,10 @@
 #include <stdio.h>
 #include <stdint.h>
 
+
 #define WIN_SAMPLES 400
 #define WIN_STEP 160
+#define DYN_RNG_ADJ 21844
 
 typedef struct linkl{ //work in progress
     signed int dat[WIN_SAMPLES];
@@ -30,6 +32,6 @@ void write_list(int lista, int posicion, int dato);
 int read_list(int lista, int posicion);
 void rx_windowing(signed int rx, uint16_t reset);
 int list_length();
-void low_energy_signal_filter(unsigned int th_scale);
+void lowen_sf_dr_adj(unsigned int th_scale);
 
 #endif /* VOICE_RECORD_H_ */

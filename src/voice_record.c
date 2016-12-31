@@ -115,54 +115,70 @@ int list_length(){
     return r;
 }
 
-void low_energy_signal_filter(unsigned int th_scale) {
-    int N = list_length();
-    unsigned int window_cnt = 0;
-    unsigned int sample_cnt;
-    unsigned long int *window_energy; // Max sum is 25 bits 16+9
-    unsigned int energy_threshold = 0;
-    linkl *prev_link;
-    linkl *current_link;
+void lowen_sf_dr_adj(unsigned int th_scale) {
+	int N = list_length();
+	unsigned int window_cnt = 0;
+	unsigned int sample_cnt;
+	unsigned long int *window_energy; // Max sum is 25 bits 16+9
+	unsigned long int energy_threshold = 0;
+	unsigned int max_value=0, abs_sample, signal_scale;
+	linkl *prev_link;
+	linkl *current_link;
 
 
-    window_energy = (unsigned long int *) malloc(N * sizeof(*window_energy));
+	window_energy = (unsigned long int *) malloc(N * sizeof(*window_energy));
 
-    current_link = link0;
+	current_link = link0;
 
-    while (current_link != NULL) {
-        *(window_energy + window_cnt) = 0;
-        for (sample_cnt = 0; sample_cnt < WIN_SAMPLES; sample_cnt++) {
-            *(window_energy + window_cnt) += _labss((long) current_link->dat[sample_cnt]);
-        }
-        energy_threshold += *(window_energy + window_cnt);
+	while (current_link != NULL) {
+		*(window_energy + window_cnt) = 0;
+		for (sample_cnt = 0; sample_cnt < WIN_SAMPLES; sample_cnt++) {
+			abs_sample = abs(current_link->dat[sample_cnt]);
+			*(window_energy + window_cnt) += abs_sample;
+			max_value = (max_value < abs_sample)? abs_sample : max_value;
+		}
+		energy_threshold += *(window_energy + window_cnt);
 
-        window_cnt++;
-        current_link = current_link->next;
-    }
+		window_cnt++;
+		current_link = current_link->next;
+	}
 
-    energy_threshold /= (N * th_scale);
+	energy_threshold /= (N * th_scale);
 
-    current_link = link0;
-    prev_link = NULL;
-    window_cnt = 0;
-    while (current_link != NULL) {
-        if (*(window_energy + window_cnt) < energy_threshold) {
-            if (prev_link == NULL) {
-                link0 = current_link->next;
-                free(current_link);
-                current_link = link0;
-            } else {
-                prev_link->next = current_link->next;
-                free(current_link);
-                current_link = prev_link->next;
-            }
-        } else {
-            prev_link = current_link;
-            current_link = current_link->next;
-        }
+	if(max_value < DYN_RNG_ADJ) {
+		signal_scale = DYN_RNG_ADJ/max_value;
+	} else {
+		signal_scale = 0;
+	}
 
-        window_cnt++;
 
-    }
-    free(window_energy);
+	current_link = link0;
+	prev_link = NULL;
+	window_cnt = 0;
+	while (current_link != NULL) {
+		if (*(window_energy + window_cnt) < energy_threshold) {
+			if (prev_link == NULL) {
+				link0 = current_link->next;
+				free(current_link);
+				current_link = link0;
+			} else {
+				prev_link->next = current_link->next;
+				free(current_link);
+				current_link = prev_link->next;
+			}
+		} else {
+			if (signal_scale > 1) {
+				for (sample_cnt = 0; sample_cnt < WIN_SAMPLES; sample_cnt++) {
+					current_link->dat[sample_cnt] *= signal_scale;
+				}
+			}
+
+			prev_link = current_link;
+			current_link = current_link->next;
+		}
+
+		window_cnt++;
+
+	}
+	free(window_energy);
 }

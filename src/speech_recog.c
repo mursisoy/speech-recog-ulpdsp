@@ -14,7 +14,7 @@ uint16_t RECORDING_TH;
 void init_speech(void){
 
 	AIC3204_init();
-	set_sampling_frequency_and_gain(16000,30); // 16 kHz
+	set_sampling_frequency_and_gain(16000,20); // 16 kHz
 	USBSTK5515_I2C_init();
 
 	//Esto es para ADC para pulsadores
@@ -66,6 +66,13 @@ void speech_recog(){
 			break;
 
 		case PROCESSING:
+			printf("Numero de ventanas: %d\n", list_length());
+			lowen_sf_dr_adj(2); // Filter low energy windows and adjust dynamic range
+			printf("Numero de ventanas filtro: %d\n", list_length());
+
+
+			//cepstrum_gen();
+
 			speech_status = ACCESS_OK;
 			break;
 
@@ -140,5 +147,4 @@ interrupt void ISR_I2S_rx(void){
 		rx_windowing(I2S2_W0_MSW_R, VOICE_RECORDING_RESET);
 		VOICE_RECORDING_RESET = 0;
 	}
-
 }
