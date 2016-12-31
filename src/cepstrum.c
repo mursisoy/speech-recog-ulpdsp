@@ -210,6 +210,7 @@ void cepstrum_comp(DATA cep1[][16], unsigned int N1, DATA cep2[][16], unsigned i
         }
         
     }
+    qsort(error_all, N1*N2, sizeof(unsigned int), cmpfunc);
 }
 
 int cmpfunc (const void * a, const void * b)
