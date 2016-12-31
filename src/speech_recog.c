@@ -68,13 +68,19 @@ void speech_recog(){
 			break;
 
 		case PROCESSING:
-			printf("Numero de ventanas: %d\n", list_length());
 			lowen_sf_dr_adj(2); // Filter low energy windows and adjust dynamic range
-			printf("Numero de ventanas filtro: %d\n", list_length());
 
-			speech_status = ACCESS_OK;;
 			N = cepstrum_gen();
+			int cep_data[200][16];
+			int i,j;
+			for (i=0; i<N; i++) {
+				for (j=0; j < 16; j++) {
+					cep_data[i][j] = *(*(cep+i) + j);
+				}
+			}
+
 			cep_clean(N);
+			speech_status = ACCESS_OK;
 			break;
 
 		case ACCESS_OK:
