@@ -229,4 +229,36 @@ int cmpfunc (const void * a, const void * b)
     int vb = *(const int*) b;
     return (va > vb) - (va < vb);
 }
+/*
+unsigned int decision(unsigned int N){
+
+	unsigned long int dist_alberto = 0;
+	unsigned long int dist_javier = 0;
+	unsigned int i = 0;
+	unsigned int j = 0;
+	unsigned int *vector_error;
+
+	for(i = 0; i < 3; i++){
+		vector_error = malloc(sizeof(unsigned int) * N * N_alberto[i]);
+		cepstrum_comp(cep, N, cep_alberto[i], N_alberto[i], vector_error);
+		for(j = 0; j<N; j++){
+			dist_alberto += vector_error[j];
+		}
+		free(vector_error);
+	}
+
+	for(i = 0; i < 3; i++){
+		vector_error = malloc(sizeof(unsigned int) * N * N_javier[i]);
+		cepstrum_comp(cep, N, cep_javier[i], N_javier[i], vector_error);
+		for(j = 0; j<N; j++){
+					dist_javier += vector_error[j];
+				}
+		free(vector_error);
+		}
+	if(dist_javier > dist_alberto)
+		return 0;
+	else
+		return 1;
+}
+*/
 //#endif

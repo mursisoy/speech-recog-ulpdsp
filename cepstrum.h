@@ -14,6 +14,7 @@
 #include "dsplib.h"
 #include "misc.h"
 #include "voice_record.h"
+#include "cepstrum_register.h"
 
 #define FFT_RES 256
 #define VOICE_CHANNELS 24
