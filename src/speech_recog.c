@@ -55,6 +55,8 @@ void init_speech(void){
 
 void speech_recog(){
 
+	unsigned int N;
+
 	switch(speech_status) {
 		case IDLE:
 			IODATAOUT1 = 0x8000; // Y OFF, B ON
@@ -70,12 +72,9 @@ void speech_recog(){
 			lowen_sf_dr_adj(2); // Filter low energy windows and adjust dynamic range
 			printf("Numero de ventanas filtro: %d\n", list_length());
 
-
-			//cepstrum_gen();
-
-			speech_status = ACCESS_OK;
-			low_energy_signal_filter(2);
-			cepstrum_gen();
+			speech_status = ACCESS_OK;;
+			N = cepstrum_gen();
+			cep_clean(N);
 			break;
 
 		case ACCESS_OK:

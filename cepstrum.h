@@ -27,11 +27,12 @@ void fft_tester(DATA *audio, DATA *out);
 
 void fft_norm(DATA *fftC, DATA *abs_fft, unsigned int fftsize);
 void cepstrum_vec(DATA *audio, DATA *out);
-void cepstrum_gen();
+unsigned int cepstrum_gen();
 signed int sqrt32(unsigned long int num);
 void std_norm(DATA *vec, DATA *out);
 unsigned int rms_error16(DATA *vec1, DATA *vec2);
 void cepstrum_comp(DATA cep1[][16], unsigned int N1, DATA cep2[][16], unsigned int N2, unsigned int *error_all);
 int cmpfunc (const void * a, const void * b);
+void cep_clean(unsigned int N);
 
 #endif /* speech_recog_h */

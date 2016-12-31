@@ -144,9 +144,16 @@ void std_norm(DATA *vec, DATA *out){
          *(out + i) = (DATA)( ((LDATA)*(vec + i) << 3) / std);
     }
 }
+void cep_clean(unsigned int N){
 
+	int i = 0;
+	for(i = 0; i < N; i++){
+		free(*(cep + i));
+	}
+	free(cep);
+}
 
-void cepstrum_gen(){
+unsigned int cepstrum_gen(){
     
     //we still dont know size of input, could be changed
     unsigned int N = list_length();
@@ -180,8 +187,10 @@ void cepstrum_gen(){
         current_link = link0;
         window_cnt++;
     } 
-    
+    return N;
 }
+
+
 
 unsigned int rms_error16(DATA *vec1, DATA *vec2){
     
@@ -204,7 +213,6 @@ void cepstrum_comp(DATA cep1[][16], unsigned int N1, DATA cep2[][16], unsigned i
     for(i = 0; i < N1; i++){
         
         for(j = 0; j < N2; j++){
-            
             *(error_all + i*N2 + j) = rms_error16( *(cep1 + i), *(cep2 + j) );
             printf("escribiendo en [%d][%d] = %d\n", i, j, *(error_all + i*N1 + j));
         }
