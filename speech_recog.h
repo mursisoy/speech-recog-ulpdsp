@@ -16,6 +16,7 @@
 #include "usbstk5515_i2c.h"
 #include "aic3204.h"
 #include "cepstrum.h"
+#include "oled.h"
 
 extern uint16_t VOICE_RECORDING_RESET;
 extern uint16_t RECORDING_TH;
