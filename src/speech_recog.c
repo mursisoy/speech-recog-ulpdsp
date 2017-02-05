@@ -27,8 +27,8 @@ void init_speech(void){
 	// Entradas analógicas
 	SARGPOCTRL = 0;
 
-	IODIR1 = 0xC000;
-	IODIR2 = 0x03;
+	IODIR1 = 0xC020; // GPIO5 for ACCESS OK OUTPUT
+	IODIR2 = 0x0003;
 	IODATAOUT1 = 0xC000; // Y OFF, B ON
 	IODATAOUT2 = 0x0003;
 
@@ -49,6 +49,7 @@ void init_speech(void){
 
 	RECORDING_TH = 19; // Timer threshold based on TIMER PERIOD
 
+	oled_init();
 	_enable_interrupts();
 
 }
@@ -61,13 +62,15 @@ void speech_recog(){
 		case IDLE:
 			IODATAOUT1 = 0x8000; // Y OFF, B ON
 			IODATAOUT2 = 0x0003; // G OFF, R OFF
+			oled_display_message("     TP6 SEUP      ", "       IDLE        ");
 			break;
 
 		case RECORDING:
-
+			oled_display_message("     TP6 SEUP      ", "     RECORDING     ");
 			break;
 
 		case PROCESSING:
+			oled_display_message("     TP6 SEUP      ", "     PROCESSING    ");
 			lowen_sf_dr_adj(2); // Filter low energy windows and adjust dynamic range
 
 			N = cepstrum_gen();
@@ -85,6 +88,8 @@ void speech_recog(){
 
 		case ACCESS_OK:
 			TIM1TCR = 0x8001;
+			IODATAOUT1 |= (1<<5); // Write 1 to GPIO5
+			oled_display_message("     TP6 SEUP      ", "   ACCESS GRANTED  ");
 			break;
 	}
 
@@ -143,6 +148,7 @@ interrupt void ISR_TINT0(){
 	} else if (TIAFR & 2) {
 		speech_status = IDLE;
 		TIM0TCR |= (1<<15);
+		IODATAOUT1 &= ~(1<<5); // Write 0 to GPIO5
 		TIAFR |= 2;
 	}
 
