@@ -184,10 +184,23 @@ void add_cep(){
     current_link->next->next = NULL;
 }
 
+int cep_length(){
+
+    unsigned int r = 0;
+
+    cepl *current_cep = cep0;
+
+    while(current_cep != NULL){
+        current_cep = current_cep->next;
+        r++;
+    }
+
+    return r;
+}
 
 void online_cepstrum_gen(){
 
-	unsigned static int window_cnt = 0;
+	static unsigned int window_cnt = 0;
 
 	cepl *current_cep;
 	linkl *current_link = link0;
@@ -223,6 +236,41 @@ void online_cepstrum_gen(){
 
 	}
 }
+
+void lowen_cf(unsigned int th_scale) {
+	int N = cep_length();
+
+	unsigned long int energy_threshold = 0;
+	cepl *prev_cep;
+	cepl *current_cep;
+
+	current_cep = cep0;
+
+	while (current_cep != NULL) {
+		energy_threshold += current_cep->power;
+		current_cep = current_cep->next;
+	}
+
+	energy_threshold /= (N * th_scale);
+
+	current_cep = cep0;
+	prev_cep = NULL;
+	while (current_cep != NULL) {
+		if (current_cep->power < energy_threshold) {
+			if (prev_cep == NULL) {
+				cep0 = current_cep->next;
+				free(current_cep);
+				current_cep = cep0;
+			} else {
+				prev_cep->next = current_cep->next;
+				free(current_cep);
+				current_cep = prev_cep->next;
+			}
+		}
+
+	}
+}
+
 
 unsigned int cepstrum_gen(){
     

@@ -67,11 +67,14 @@ void speech_recog(){
 
 		case RECORDING:
 			oled_display_message("     TP6 SEUP      ", "     RECORDING     ");
+			online_cepstrum_gen();
 			break;
 
 		case PROCESSING:
 			oled_display_message("     TP6 SEUP      ", "     PROCESSING    ");
-			lowen_sf_dr_adj(2); // Filter low energy windows and adjust dynamic range
+			online_cepstrum_gen();
+			remove_list();
+			lowen_cf(2); // Filter low energy cepstrums and adjust dynamic range
 
 			N = cepstrum_gen();
 			cep_clean(N);
