@@ -20,6 +20,7 @@
 typedef struct linkl{ //work in progress
     signed int dat[WIN_SAMPLES];
     int id;
+    int complete;
     struct linkl *next;
 } linkl;
 

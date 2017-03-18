@@ -74,14 +74,6 @@ void speech_recog(){
 			lowen_sf_dr_adj(2); // Filter low energy windows and adjust dynamic range
 
 			N = cepstrum_gen();
-			int cep_data[200][16];
-			int i,j;
-			for (i=0; i<N; i++) {
-				for (j=0; j < 16; j++) {
-					cep_data[i][j] = *(*(cep+i) + j);
-				}
-			}
-
 			cep_clean(N);
 			speech_status = ACCESS_OK;
 			break;

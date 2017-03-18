@@ -24,6 +24,7 @@ void rx_windowing(signed int rx, uint16_t reset){
     	if( (link0 = malloc(sizeof(linkl))) == NULL){
     	}
 		link0->id = 0;
+		link0->complete = 0;
 		link0->next = NULL;
     }
 
@@ -32,7 +33,7 @@ void rx_windowing(signed int rx, uint16_t reset){
         index = ((ci - i) < 0)? 3 + (ci - i): ci - i;
 
         if ((list_ - i > -1) && ( c[index] < WIN_SAMPLES) ) {
-            write_list(list_ - i, c[index], rx);
+            write_list(list_ - i, c[index], rx, 1);
             c[index]++;
         }
     }
@@ -61,7 +62,7 @@ int read_list(int lista, int posicion){
     return r;
 }
 
-void write_list(int lista, int posicion, int dato){
+void write_list(int lista, int posicion, int dato, int flag){
 
 
 	linkl *current_link = link0;
@@ -71,6 +72,10 @@ void write_list(int lista, int posicion, int dato){
     }
 
     current_link->dat[posicion] = dato;
+
+    if((posicion == (WIN_SAMPLES - 1) ) && (flag)) {
+    	current_link->complete = 1;
+    }
 }
 
 void remove_list(){
@@ -95,9 +100,10 @@ void add_list(){
     }
 
 
-    if( (current_link->next =  malloc(sizeof(linkl)) ) == NULL){
-    }
+    current_link->next =  malloc(sizeof(linkl));
+
     current_link->next->id = current_link->id + 1;
+    current_link->next->complete = 0;
     current_link->next->next = NULL;
 }
 
