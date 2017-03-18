@@ -95,8 +95,8 @@ void add_list(){
     }
 
 
-    if( (current_link->next =  malloc(sizeof(linkl)) ) == NULL){
-    }
+    current_link->next =  malloc(sizeof(linkl));
+
     current_link->next->id = current_link->id + 1;
     current_link->next->next = NULL;
 }
