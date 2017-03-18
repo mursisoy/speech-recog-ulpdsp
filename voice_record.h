@@ -17,9 +17,10 @@
 #define WIN_STEP 160
 #define DYN_RNG_ADJ 21844
 
-typedef struct linkl{ //work in progress
+typedef struct linkl{
     signed int dat[WIN_SAMPLES];
     int id;
+    int complete;
     struct linkl *next;
 } linkl;
 
@@ -28,7 +29,7 @@ extern linkl *link0;
 
 void add_list();
 void remove_list();
-void write_list(int lista, int posicion, int dato);
+void write_list(int lista, int posicion, int dato, int flag);
 int read_list(int lista, int posicion);
 void rx_windowing(signed int rx, uint16_t reset);
 int list_length();

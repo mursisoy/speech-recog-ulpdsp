@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>speech-recog-uldsp</name>
+	<name>speech-recog-ulpdsp</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -26,7 +26,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1483037175390</id>
+			<id>0</id>
 			<name></name>
 			<type>26</type>
 			<matcher>

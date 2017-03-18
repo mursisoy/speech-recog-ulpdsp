@@ -24,6 +24,16 @@ extern DATA **cep;
 extern DATA mel_filter_bank[FFT_RES*VOICE_CHANNELS];
 extern DATA dct_mat[VOICE_CHANNELS*DCT_LENGTH];//filas x columnas
 
+typedef struct cepl{
+    DATA dat[DCT_LENGTH];
+    unsigned long int power;
+    int id;
+    struct cepl *next;
+} cepl;
+
+
+extern cepl *cep0;
+
 void fft_tester(DATA *audio, DATA *out);
 
 void fft_norm(DATA *fftC, DATA *abs_fft, unsigned int fftsize);
@@ -35,5 +45,12 @@ unsigned int rms_error16(DATA *vec1, DATA *vec2);
 void cepstrum_comp(DATA cep1[][16], unsigned int N1, DATA cep2[][16], unsigned int N2, unsigned int *error_all);
 int cmpfunc (const void * a, const void * b);
 void cep_clean(unsigned int N);
+void online_cepstrum_gen();
+void add_cep();
+unsigned long int window_power(int *samples);
+void lowen_cf(unsigned int th_scale);
+unsigned int cepstrum_mat_gen();
+void vec_mv(DATA *out, DATA *in, unsigned int size);
+
 
 #endif /* speech_recog_h */
