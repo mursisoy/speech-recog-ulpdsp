@@ -271,6 +271,51 @@ void lowen_cf(unsigned int th_scale) {
 	}
 }
 
+void vec_mv(DATA *out, DATA *in, unsigned int size) {
+	int i;
+	for(i = 0; i < size; i++){
+		*(out + i) = *(in + i);
+	}
+}
+
+unsigned int cepstrum_mat_gen(){
+
+	//we still dont know size of input, could be changed
+	unsigned int N = cep_length();
+
+	printf("there are %d windows\n", N);
+
+	unsigned int elements = DCT_LENGTH;
+
+	unsigned int window_cnt = 0;
+	//unsigned int dat_cnt; //remove later
+
+	cepl *current_link = cep0;
+
+	//creating cepstrum matrix
+	cep = (DATA**) malloc(N * sizeof(DATA*));
+
+	while(current_link != NULL){
+
+		*(cep + window_cnt) = (DATA*) malloc(elements * (sizeof(DATA)));
+
+		//filling matrix with info
+		vec_mv(*(cep + window_cnt), current_link->dat, elements);
+		/*
+		for(dat_cnt = 0; dat_cnt < elements; dat_cnt++){//remove later
+			cep[window_cnt][dat_cnt] = (DATA) current_link->dat[dat_cnt];
+			printf("escribiendo %d en [%d][%d]\n", current_link->dat[dat_cnt], window_cnt, dat_cnt);
+		}*/
+
+		cep0 = current_link->next;
+		free(current_link);
+		current_link = cep0;
+		window_cnt++;
+	}
+	return N;
+
+}
+
 
 unsigned int cepstrum_gen(){
     

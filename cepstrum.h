@@ -49,6 +49,8 @@ void online_cepstrum_gen();
 void add_cep();
 unsigned long int window_power(int *samples);
 void lowen_cf(unsigned int th_scale);
+unsigned int cepstrum_mat_gen();
+void vec_mv(DATA *out, DATA *in, unsigned int size);
 
 
 #endif /* speech_recog_h */
