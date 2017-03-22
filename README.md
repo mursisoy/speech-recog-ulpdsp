@@ -1,12 +1,11 @@
 # Speech Recognition on C55xx ULP DSP Family
 
-This system is an approach of a basic speech recognition processing system.
+This project implements a speaker recognition alforithm we designed based on Mel filterbank analysis.
 
-It was designed for Microprocessors Architecture subject in Telecomunications Engineering Grade at Unizar.
+The system was built for our Microprocessor Architecture subject in our Telecomunications Engineering degree at Universidad de Zaragoza.
 
 ## Code Composer v6 Project Settings
-For building and debugging we have to take care for some configurations as is detailed afterwards:
-
+Before building and debugging we have to take care of some configurations:
 In Project Properties:
 
 * Linker Command File: lnkx.cmd
