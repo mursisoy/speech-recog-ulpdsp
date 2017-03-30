@@ -1,4 +1,4 @@
 Matlab Study Case
 -----------------
 
-In this matlab script we try to find the best algorithm to recognize the speech for a well known poblation.
+In these matlab scripts we try to find the best algorithm to distiguish voice commands from our pool of speakers.
