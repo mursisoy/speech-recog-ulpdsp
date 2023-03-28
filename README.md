@@ -26,3 +26,4 @@ __Add dsplib include file path__
 Build > C5500 Linker > File Search Path
 
 __Add dsplib huge type .lib, we include this one 5xdsph_r3.lib__
+
